@@ -75,8 +75,8 @@ roslaunch launch/site.launch
 
 
 ### quick start
-pip install -r requ...txt
-cd ros
-catkin_make
-source devel/setup.bash
-roslaunch launch/strx.launch
+pip install -r requ...txt   
+cd ros   
+catkin_make   
+source devel/setup.bash   
+roslaunch launch/strx.launch   

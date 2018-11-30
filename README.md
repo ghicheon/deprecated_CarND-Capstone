@@ -72,3 +72,11 @@ cd CarND-Capstone/ros
 roslaunch launch/site.launch
 ```
 5. Confirm that traffic light detection works on real life images
+
+
+### quick start
+pip install -r requ...txt
+cd ros
+catkin_make
+source devel/setup.bash
+roslaunch launch/strx.launch

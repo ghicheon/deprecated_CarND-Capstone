@@ -1,3 +1,10 @@
 
+source devel/setup.bash
+catkin_make
+sudo apt install ros-kinetic-pcl-ros
+catkin_make
+roslaunch  launch/styx.launch 
 
+
+-----------------------------------------
 bash <(wget -q -O - https://bitbucket.org/DataspeedInc/dbw_mkz_ros/raw/default/dbw_mkz/scripts/ros_install.bash)

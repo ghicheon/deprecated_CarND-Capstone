@@ -1,7 +1,13 @@
 
 source devel/setup.bash
 catkin_make
+----------------------------------------------
 sudo apt install ros-kinetic-pcl-ros
+or   ----------------------------------------------
+
+sudo apt-get update
+sudo apt-get install ros-kinetic-geographic-msgs
+-----------------------------------------------
 catkin_make
 roslaunch  launch/styx.launch 
 

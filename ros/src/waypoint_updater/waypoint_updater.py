@@ -43,7 +43,8 @@ class WaypointUpdater(object):
         self.pose = None
         self.base_waypoints=None
         self.waypoints_2d=None
-        self.waypoint_tree=None
+        #self.waypoint_tree=None
+        self.waypoint_tree = KDTree([[1,1]]) #XXXXXXXXXXX type error workaround...
         self.loop()
 
         #rospy.spin()
@@ -64,7 +65,7 @@ class WaypointUpdater(object):
         prev_coord = self.waypoints_2d[closest_idx-1]
 
         cl_vect = np.array(cloest_coord)
-        prev_vect = np.array(perv_coord)
+        prev_vect = np.array(prev_coord)
         pos_vect = np.array([x,y])
 
         val = np.dot(cl_vect-prev_vect , pos_vect-cl_vect)
@@ -91,6 +92,8 @@ class WaypointUpdater(object):
     def waypoints_cb(self, waypoints):
         # TODO: Implement
         self.base_waypoints = waypoints
+
+
         if not self.waypoints_2d:
             self.waypoints_2d = [[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
             self.waypoint_tree = KDTree(self.waypoints_2d)

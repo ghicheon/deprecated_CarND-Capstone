@@ -24,4 +24,8 @@ catkin_make
 #sudo apt install ros-kinetic-pcl-ros
 #sudo apt-get install ros-kinetic-geographic-msgs
 
+#connect to simulator!
+pip install python-socketio --upgrade --user
+
 roslaunch  launch/styx.launch 
+

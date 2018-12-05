@@ -81,6 +81,8 @@ class WaypointLoader(object):
 
 if __name__ == '__main__':
     try:
+        rospy.logerr("XXXXXXXX0XXXXXXXXXXXXXXXXXXXXXXXX")
+        print("XXXXXXXXXXXXXXX1XXXXXXXXXXXXXXXXX")
         WaypointLoader()
     except rospy.ROSInterruptException:
         rospy.logerr('Could not start waypoint node.')

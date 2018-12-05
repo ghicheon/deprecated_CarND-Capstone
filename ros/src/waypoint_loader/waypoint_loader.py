@@ -3,6 +3,7 @@
 import os
 import csv
 import math
+import sys
 
 from geometry_msgs.msg import Quaternion
 
@@ -81,8 +82,7 @@ class WaypointLoader(object):
 
 if __name__ == '__main__':
     try:
-        rospy.logerr("XXXXXXXX0XXXXXXXXXXXXXXXXXXXXXXXX")
-        print("XXXXXXXXXXXXXXX1XXXXXXXXXXXXXXXXX")
+        sys.stderr.write("111XXXXXXXXXXXXXXX1XXXXXXXXXXXXXXXXX")
         WaypointLoader()
     except rospy.ROSInterruptException:
         rospy.logerr('Could not start waypoint node.')

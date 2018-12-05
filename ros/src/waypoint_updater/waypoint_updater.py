@@ -42,8 +42,9 @@ class WaypointUpdater(object):
         # TODO: Add other member variables you need below
         self.pose = None
         self.base_waypoints=None
-        self.waypoints_2d=None
+        #self.waypoints_2d=None
         #self.waypoint_tree=None
+        self.waypoints_2d=[[1,1]] #XXXXXXXXXXX type error workaround...
         self.waypoint_tree = KDTree([[1,1]]) #XXXXXXXXXXX type error workaround...
         self.loop()
 

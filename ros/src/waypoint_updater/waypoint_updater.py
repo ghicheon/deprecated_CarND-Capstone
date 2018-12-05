@@ -10,6 +10,8 @@ from scipy.spatial import KDTree
 
 import math
 
+import sys
+
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
 
@@ -82,6 +84,7 @@ class WaypointUpdater(object):
     def publish_waypoints(self):
         final_lane = self.generate_lane()
         self.final_waypoints_pub.publish(final_lane)
+        sys.stderr.write("XXXXXXXXXXXXXXXwaypoint_updater -> publish_waypoints XXXXXXXXXXXXXXXXX\n")
 
     def generate_lane(self):
         lane = Lane()

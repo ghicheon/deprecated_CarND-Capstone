@@ -91,6 +91,11 @@ class WaypointUpdater(object):
         closest_idx = self.get_closest_waypoint_idx()
         farthest_idx = closest_idx + LOOKAHEAD_WPS
         base_waypoints = self.base_lane.waypoints[closest_idx:farthest_idx]
+        sys.stderr.write("start-------------------\n")
+        for i in base_waypoints:
+            sys.stderr.write(str(i))
+            sys.stderr.write(str(type(i)))
+        sys.stderr.write("\nend------------------------\n")
 
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints

@@ -49,8 +49,8 @@ class WaypointUpdater(object):
         self.stopline_wp_idx = -1
         #self.waypoints_2d=None
         #self.waypoint_tree=None
-        self.waypoints_2d=[[1,1]] #XXXXXXXXXX type error workaround...
-        self.waypoint_tree = KDTree([[1,1]]) #XXXXXXXXXXX type error workaround...
+        self.waypoints_2d=[[9999999999999999,9999999999999999]] #XXXXXXXXXX type error workaround...
+        self.waypoint_tree = KDTree(self.waypoints_2d) #XXXXXXXXXXX type error workaround...
 
         self.loop()
 
@@ -89,13 +89,19 @@ class WaypointUpdater(object):
     def generate_lane(self):
         lane = Lane()
         closest_idx = self.get_closest_waypoint_idx()
+
+        sys.stderr.write("closest_idx:" + str(closest_idx) + "\n" )
+
         farthest_idx = closest_idx + LOOKAHEAD_WPS
         base_waypoints = self.base_lane.waypoints[closest_idx:farthest_idx]
-        sys.stderr.write("start-------------------\n")
-        for i in base_waypoints:
-            sys.stderr.write(str(i))
-            sys.stderr.write(str(type(i)))
-        sys.stderr.write("\nend------------------------\n")
+
+#        sys.stderr.write("start-------------------" + str(len(base_waypoints)) + "\n" )
+#        for i in base_waypoints:
+#            x = i.pose.pose.position.x
+#            y = i.pose.pose.position.y
+#            sss = "[" + str(x) + "," + str(y) + "] \n"
+#            sys.stderr.write(sss)
+#        sys.stderr.write("\nend------------------------\n")
 
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints
@@ -130,9 +136,15 @@ class WaypointUpdater(object):
     def waypoints_cb(self, waypoints):
         # TODO: Implement
         self.base_lane = waypoints
-        if not self.waypoints_2d:
-            self.waypoints_2d = [[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
-            self.waypoint_tree = KDTree(self.waypoints_2d)
+        sys.stderr.write("WWWWWWWWWW1  waypoints_cb\n")
+
+        if len(self.waypoints_2d) == 1:
+                self.waypoints_2d =[[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
+                self.waypoint_tree = KDTree(self.waypoints_2d)
+
+        #if not self.waypoints_2d:
+        #  self.waypoints_2d =[[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
+        #  self.waypoint_tree = KDTree(self.waypoints_2d)
 
     def traffic_cb(self, msg):
         # TODO: Callback for /traffic_waypoint message. Implement

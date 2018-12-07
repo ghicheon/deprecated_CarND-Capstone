@@ -8,6 +8,8 @@ import math
 
 from twist_controller import Controller
 
+import sys
+
 '''
 You can build this node only after you have built (or partially built) the `waypoint_updater` node.
 
@@ -106,6 +108,8 @@ class DBWNode(object):
     def twist_cb(self,msg):
         self.linear_vel = msg.twist.linear.x
         self.angular_vel = msg.twist.angular.z
+
+        sys.stderr.write("DBW______  " + str(self.linear_vel)  + "  " + str(self.angular_vel) )
 
     def velocity_cb(self,msg):
         self.current_vel = msg.twist.linear.x

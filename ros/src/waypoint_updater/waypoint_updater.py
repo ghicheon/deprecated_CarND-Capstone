@@ -110,7 +110,7 @@ class WaypointUpdater(object):
 
 
         #XXXXXXXXXXXXXXXXXXXXXXXX
-        lane.waypoints = base_waypoints
+        #lane.waypoints = base_waypoints
 
         return lane
 
@@ -121,12 +121,12 @@ class WaypointUpdater(object):
             p.pose = wp.pose
 
             stop_idx = max(self.stopline_wp_idx - closest_idx - 2,0)
-            dist = self.distance(waypoints,i,stop_idx)
+            dist = self.distance(waypoints ,i, stop_idx)
             vel = math.sqrt(2*MAX_DECEL*dist)
             if vel < 1.:
                 vel = 0.
 
-            p.twist.twist.linear.x = min(vel,wp.twist.twist.linear.x)
+            p.twist.twist.linear.x = min(vel ,wp.twist.twist.linear.x)
             temp.append(p)
 
         return temp
@@ -142,7 +142,7 @@ class WaypointUpdater(object):
         self.base_lane = waypoints
         sys.stderr.write("WWWWWWWWWW1  waypoints_cb\n")
 
-        if len(self.waypoints_2d) == 1:
+        if len(self.waypoints_2d) == 1:# only one  executed.
                 self.waypoints_2d =[[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
                 self.waypoint_tree = KDTree(self.waypoints_2d)
 
@@ -152,7 +152,7 @@ class WaypointUpdater(object):
 
     def traffic_cb(self, msg):
         # TODO: Callback for /traffic_waypoint message. Implement
-        pass
+        self.stopline_wp_idx = msg.data
 
     def obstacle_cb(self, msg):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later

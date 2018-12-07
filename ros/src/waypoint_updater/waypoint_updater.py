@@ -84,16 +84,16 @@ class WaypointUpdater(object):
     def publish_waypoints(self):
         final_lane = self.generate_lane()
         self.final_waypoints_pub.publish(final_lane)
-        sys.stderr.write("XXXXXXXXXXXXXXXwaypoint_updater -> publish_waypoints XXXXXXXXXXXXXXXXX\n")
 
     def generate_lane(self):
         lane = Lane()
         closest_idx = self.get_closest_waypoint_idx()
 
-        sys.stderr.write("closest_idx:" + str(closest_idx) + "\n" )
 
         farthest_idx = closest_idx + LOOKAHEAD_WPS
         base_waypoints = self.base_lane.waypoints[closest_idx:farthest_idx]
+
+        sys.stderr.write("base_waypoints:" + str(closest_idx) + "   " + str(farthest_idx) + "\n" )
 
 #        sys.stderr.write("start-------------------" + str(len(base_waypoints)) + "\n" )
 #        for i in base_waypoints:
@@ -107,6 +107,10 @@ class WaypointUpdater(object):
             lane.waypoints = base_waypoints
         else:
             lane.waypoints = self.dcelerate_waypoints(base_waypoints,closest_idx)
+
+
+        #XXXXXXXXXXXXXXXXXXXXXXXX
+        lane.waypoints = base_waypoints
 
         return lane
 

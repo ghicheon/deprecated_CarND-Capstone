@@ -13,8 +13,8 @@ class Controller(object):
         # TODO: Implement
         self.yaw_controller = YawController(wheel_base,steer_ratio,0.1, max_lat_accel,max_steer_angle)
 
-        kp=0.3
-        ki=0.1
+        kp=0.5
+        ki=0.2
         kd=0.
         mn=0.
         mx=0.2
@@ -66,6 +66,9 @@ class Controller(object):
             brake = abs(decel)*self.vehicle_mass*self.wheel_radius
 
         return throttle,brake,steering
+
+        #return 1,0,0.5          #left turn
+        #return 1,0,-0.5          #right turn
 
 
 

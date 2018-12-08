@@ -50,7 +50,6 @@ class WaypointUpdater(object):
         self.waypoint_tree = KDTree([[1,1]]) #XXXXXXXXXXX type error workaround...
         self.loop()
 
-        #rospy.spin()
 
     def loop(self):
         rate = rospy.Rate(50)
@@ -61,13 +60,13 @@ class WaypointUpdater(object):
 
     def get_closest_waypoint_idx(self):
         x = self.pose.pose.position.x
-        y = self.pose.pose.position.x
+        y = self.pose.pose.position.y
         closest_idx = self.waypoint_tree.query([x,y],1)[1]
 
-        cloest_coord = self.waypoints_2d[closest_idx]
+        closest_coord = self.waypoints_2d[closest_idx]
         prev_coord = self.waypoints_2d[closest_idx-1]
 
-        cl_vect = np.array(cloest_coord)
+        cl_vect = np.array(closest_coord)
         prev_vect = np.array(prev_coord)
         pos_vect = np.array([x,y])
 

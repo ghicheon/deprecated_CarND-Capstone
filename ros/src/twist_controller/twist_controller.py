@@ -51,7 +51,7 @@ class Controller(object):
         self.last_vel = current_vel
 
         current_time = rospy.get_time()
-        sample_time = current_time = self.last_time
+        sample_time = current_time - self.last_time
         self.last_time = current_time
 
         throttle = self.throttle_controller.step(vel_error,sample_time)
@@ -63,28 +63,11 @@ class Controller(object):
         elif throttle < .1 and vel_error < 0:
             throttle=0
             decel = max(vel_error,self.decel_limit)
-            brake = abs(decel)*self.vehicle_mass*self.wheel_radius
+            brake = abs(decel)*self.vehicle_mass*self.wheel_radius #Torque N*m
 
         return throttle,brake,steering
 
         #return 1,0,0.5          #left turn
         #return 1,0,-0.5          #right turn
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -93,7 +93,7 @@ class WaypointUpdater(object):
         farthest_idx = closest_idx + LOOKAHEAD_WPS
         base_waypoints = self.base_lane.waypoints[closest_idx:farthest_idx]
 
-        sys.stderr.write("base_waypoints:" + str(closest_idx) + "   " + str(farthest_idx) + "\n" )
+        #sys.stderr.write("base_waypoints:" + str(closest_idx) + "   " + str(farthest_idx) + "\n" )
 
 #        sys.stderr.write("start-------------------" + str(len(base_waypoints)) + "\n" )
 #        for i in base_waypoints:
@@ -140,7 +140,7 @@ class WaypointUpdater(object):
     def waypoints_cb(self, waypoints):
         # TODO: Implement
         self.base_lane = waypoints
-        sys.stderr.write("WWWWWWWWWW1  waypoints_cb\n")
+        #sys.stderr.write("WWWWWWWWWW1  waypoints_cb\n")
 
         if len(self.waypoints_2d) == 1:# only one  executed.
                 self.waypoints_2d =[[waypoint.pose.pose.position.x, waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]

@@ -106,7 +106,8 @@ class WaypointUpdater(object):
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints
         else:
-            lane.waypoints = self.dcelerate_waypoints(base_waypoints,closest_idx)
+            sys.stderr.write("decelerate.................\n")
+            lane.waypoints = self.decelerate_waypoints(base_waypoints,closest_idx)
 
 
         #XXXXXXXXXXXXXXXXXXXXXXXX
@@ -153,6 +154,7 @@ class WaypointUpdater(object):
     def traffic_cb(self, msg):
         # TODO: Callback for /traffic_waypoint message. Implement
         self.stopline_wp_idx = msg.data
+        sys.stderr.write("traffic_cb______________: " + str( self.stopline_wp_idx) + "\n")
 
     def obstacle_cb(self, msg):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later

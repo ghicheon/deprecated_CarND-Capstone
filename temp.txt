@@ -1,4 +1,4 @@
-#these procedures must be done in ubuntu 16.04 bash windows shell.
+#this procedure must be done in ubuntu 16.04 bash windows shell.
 
 
 #git clone https://github.com/ghicheon/CarND-Capstone

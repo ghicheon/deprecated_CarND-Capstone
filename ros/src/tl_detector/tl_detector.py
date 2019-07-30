@@ -53,8 +53,8 @@ class TLDetector(object):
         self.last_wp = -1
         self.state_count = 0
 
-        self.waypoints_2d=[[9999999999999999,9999999999999999]] #XXXXXXXXXX type error workaround...
-        self.waypoint_tree = KDTree(self.waypoints_2d) #XXXXXXXXXXX type error workaround...
+        self.waypoints_2d=[[99999999,9999999]] #XXX type error workaround...
+        self.waypoint_tree = KDTree(self.waypoints_2d) #XXX type error workaround...
 
         rospy.spin()
 
@@ -82,7 +82,7 @@ class TLDetector(object):
         self.has_image = True
         self.camera_image = msg
         light_wp, state = self.process_traffic_lights()
-        sys.stderr.write("image_cb_:" + str(state) + "\n" )
+        #sys.stderr.write("image_cb_:" + str(state) + "\n" )
 	
 
         '''

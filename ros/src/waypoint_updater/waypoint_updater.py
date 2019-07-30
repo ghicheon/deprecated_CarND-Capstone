@@ -53,8 +53,8 @@ class WaypointUpdater(object):
         self.stopline_wp_idx = -1
         #self.waypoints_2d=None
         #self.waypoint_tree=None
-        self.waypoints_2d=[[9999999999999999,9999999999999999]] #XXXXXXXXXX type error workaround...
-        self.waypoint_tree = KDTree(self.waypoints_2d) #XXXXXXXXXXX type error workaround...
+        self.waypoints_2d=[[9999999999999999,9999999999999999]] #XXX type error workaround...
+        self.waypoint_tree = KDTree(self.waypoints_2d) #XXX type error workaround...
 
         self.loop()
 
@@ -99,23 +99,19 @@ class WaypointUpdater(object):
 
         #sys.stderr.write("base_waypoints:" + str(closest_idx) + "   " + str(farthest_idx) + "\n" )
 
-#        sys.stderr.write("start-------------------" + str(len(base_waypoints)) + "\n" )
-#        for i in base_waypoints:
-#            x = i.pose.pose.position.x
-#            y = i.pose.pose.position.y
-#            sss = "[" + str(x) + "," + str(y) + "] \n"
-#            sys.stderr.write(sss)
-#        sys.stderr.write("\nend------------------------\n")
+        #sys.stderr.write("start-------------------" + str(len(base_waypoints)) + "\n" )
+        #for i in base_waypoints:
+        #    x = i.pose.pose.position.x
+        #    y = i.pose.pose.position.y
+        #    sss = "[" + str(x) + "," + str(y) + "] \n"
+        #    sys.stderr.write(sss)
+        #sys.stderr.write("\nend------------------------\n")
 
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_idx):
             lane.waypoints = base_waypoints
         else:
-            sys.stderr.write("decelerate.................\n")
+            #sys.stderr.write("decelerate.................\n")
             lane.waypoints = self.decelerate_waypoints(base_waypoints,closest_idx)
-
-
-        #XXXXXXXXXXXXXXXXXXXXXXXX
-        #lane.waypoints = base_waypoints
 
         return lane
 
@@ -158,7 +154,7 @@ class WaypointUpdater(object):
     def traffic_cb(self, msg):
         # TODO: Callback for /traffic_waypoint message. Implement
         self.stopline_wp_idx = msg.data
-        sys.stderr.write("traffic_cb______________: " + str( self.stopline_wp_idx) + "\n")
+        #sys.stderr.write("traffic_cb______________: " + str( self.stopline_wp_idx) + "\n")
 
     def obstacle_cb(self, msg):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later

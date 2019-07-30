@@ -17,6 +17,9 @@ import sys
 
 STATE_COUNT_THRESHOLD = 3
 
+
+dbg_cnt=0   #just for checking if image_cb works.
+
 class TLDetector(object):
     def __init__(self):
         rospy.init_node('tl_detector')
@@ -79,10 +82,14 @@ class TLDetector(object):
             msg (Image): image from car-mounted camera
 
         """
+        global dbg_cnt
         self.has_image = True
         self.camera_image = msg
         light_wp, state = self.process_traffic_lights()
-        #sys.stderr.write("image_cb_:" + str(state) + "\n" )
+        
+        if dbg_cnt < 3: 
+            sys.stderr.write("image_cb called(state:" + str(state) + ")\n" )
+        dbg_cnt += 1
 	
 
         '''

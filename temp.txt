@@ -13,16 +13,14 @@ rosdep update
 
 cd
 echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
+.  ~/.bashrc
 sudo apt-get install python-rosinstall python-rosinstall-generator python-wstool build-essential
 cd CarND-Capstone/
 cd ros
 catkin_make
 bash <(wget -q -O - https://bitbucket.org/DataspeedInc/dbw_mkz_ros/raw/default/dbw_mkz/scripts/sdk_install.bash)
 
-
 source devel/setup.bash
-catkin_make
 
 #sudo apt install ros-kinetic-pcl-ros
 #sudo apt-get install ros-kinetic-geographic-msgs
@@ -30,8 +28,11 @@ catkin_make
 #connect to simulator!
 pip install python-socketio --upgrade --user
 
-#MUST BE DONE before roslaunch!!!!!!!!!!!!
+#MUST BE DONE before roslaunch
 sudo pip install -r requirements.txt
 
-roslaunch  launch/styx.launch 
+#IndexError: tuple index out of range
+pip install pillow --upgrade
 
+
+roslaunch  launch/styx.launch 

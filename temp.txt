@@ -20,9 +20,7 @@ cd ros
 catkin_make
 bash <(wget -q -O - https://bitbucket.org/DataspeedInc/dbw_mkz_ros/raw/default/dbw_mkz/scripts/sdk_install.bash)
 
-
 source devel/setup.bash
-catkin_make
 
 #sudo apt install ros-kinetic-pcl-ros
 #sudo apt-get install ros-kinetic-geographic-msgs
@@ -35,5 +33,6 @@ sudo pip install -r requirements.txt
 
 #IndexError: tuple index out of range
 pip install pillow --upgrade
+
 
 roslaunch  launch/styx.launch 

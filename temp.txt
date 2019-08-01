@@ -1,4 +1,5 @@
 #this procedure must be done in ubuntu 16.04 bash windows shell.
+#just use this file as a reference.
 
 
 #git clone https://github.com/ghicheon/CarND-Capstone

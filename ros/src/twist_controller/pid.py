@@ -14,8 +14,10 @@ class PID(object):
 
         self.int_val = self.last_error = 0.
 
-        self.saturated = False
         self.last_val = VAL_INIT
+
+        #conditional integral
+        self.integral_on = True
 
     def reset(self):
         self.int_val = 0.0
@@ -23,33 +25,33 @@ class PID(object):
     def step(self, error, sample_time):
         # integral on? or off?
         #set False 
-        #if error is the same sign with last_val and it was saturated last time
-        integral_on = True
+        #if error is the same sign with PID output and it's saturated.
 
         integral = self.int_val + error * sample_time;
         derivative = (error - self.last_error) / sample_time;
 
-        if self.last_val != VAL_INIT:
-            if (error > 0 and self.last_val > 0 ) or (error < 0 and self.last_val < 0 ): #same sign?
-                if self.saturated == True:                
-                    integral_on = False
-
-        if integral_on == True:
+        if self.integral_on == True:
             val = self.kp * error + self.ki * integral + self.kd * derivative;
         else:
             val = self.kp * error + self.kd * derivative;
             
         self.last_val = val
 
+        saturated = True
         if val > self.max:
             val = self.max
-            self.saturated = True
         elif val < self.min:
             val = self.min
-            self.saturated = True
         else:
             self.int_val = integral
-            self.saturated = False
+            saturated = False
         self.last_error = error
+
+        same_sign = (error > 0 and val > 0 ) or (error < 0 and val < 0 )
+
+        if saturated and same_sign: 
+                self.integral_on = False
+        else:
+                self.integral_on = True  #turn on again!
 
         return val

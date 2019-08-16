@@ -13,11 +13,19 @@ class Controller(object):
         # TODO: Implement
         self.yaw_controller = YawController(wheel_base,steer_ratio,0.1, max_lat_accel,max_steer_angle)
 
-        kp=0.25
-        ki=0.001
+        #kp=0.25
+        #ki=0.001
+
+        #FOPDT(first order plus dead-time model is used.
+        #Tuning is done using IMC(Internal Model Control) 
+        kp=0.5      
+        ki=kp/8.0
+
         kd=0.00001
         mn=0.
-        mx=0.2
+        #mx=0.2
+
+        mx= 1   #unlimited
         self.throttle_controller = PID(kp,ki,kd,mn,mx)
 
         tau = 0.5
@@ -65,6 +73,8 @@ class Controller(object):
             decel = max(vel_error,self.decel_limit)
             brake = abs(decel)*self.vehicle_mass*self.wheel_radius #Torque N*m
 
+#        throttle=0.2
+#        brake = 0
         return throttle,brake,steering
 
         #return 1,0,0.5          #left turn

@@ -20,27 +20,13 @@ import numpy as np
 import cv2
 import tensorflow as tf
 
-row = 32
-col = 32
-
-y_onehot = [[1,0],[0,1]]
 
 STATE_COUNT_THRESHOLD = 3
-
-
-#SAVE_IMAGE=True
-SAVE_IMAGE=False
-
-
-count=0
 
 dbg_cnt=0   #just for checking if image_cb works.
 
 class TLDetector(object):
     def __init__(self):
-        dir_path = os.path.dirname(os.path.realpath("."))
-        sys.stderr.write("XXXXXX pwd" + dir_path + "XXXXXXXX")
-
         rospy.init_node('tl_detector')
 
         self.pose = None
@@ -66,9 +52,6 @@ class TLDetector(object):
 
         self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
 
-        self.bridge = CvBridge()
-        #self.light_classifier = TLClassifier()
-        #self.listener = tf.TransformListener()
 
         self.state = TrafficLight.UNKNOWN
         self.last_state = TrafficLight.UNKNOWN
@@ -78,25 +61,10 @@ class TLDetector(object):
         self.waypoints_2d=[[99999999,9999999]] #XXX type error workaround...
         self.waypoint_tree = KDTree(self.waypoints_2d) #XXX type error workaround...
 
-        if SAVE_IMAGE == True:
-            self.fff = open('y.txt','w')
-    
-        #Loading deep learning model! ###############################
-
-        self.sess=tf.Session()    
-        saver = tf.train.import_meta_graph('/home/user/tl/saved_model.meta')
-        saver.restore(self.sess,tf.train.latest_checkpoint('/home/user/tl'))
-        
-        graph = tf.get_default_graph()
-        self.x = graph.get_tensor_by_name("x:0")
-        self.y_ = graph.get_tensor_by_name("y_:0")
-        self.keep_prob = graph.get_tensor_by_name("keep_prob:0")
-        
-        self.y = graph.get_tensor_by_name("y:0")
-        sys.stderr.write("Loading model done...")
-        ##############################################################
-
-        
+        self.bridge = CvBridge()
+        self.light_classifier = TLClassifier()
+        #self.listener = tf.TransformListener()
+        print("Loading TLClassifier done....")
 
         rospy.spin()
 
@@ -121,31 +89,13 @@ class TLDetector(object):
             msg (Image): image from car-mounted camera
 
         """
-        global SAVE_IMAGE
-        global count
-        if SAVE_IMAGE == True:
-                cv_image = self.bridge.imgmsg_to_cv2( msg, "bgr8")
-                newname = './' + str(count) + '.jpg'
-                count += 1
-                cv2.imwrite( newname, cv_image)
-
         global dbg_cnt
         self.has_image = True
         self.camera_image = msg
         light_wp, state = self.process_traffic_lights()
 
-        if SAVE_IMAGE == True:
-            if state == TrafficLight.RED:
-                self.fff.write( "R")
-            elif state == TrafficLight.GREEN:
-                self.fff.write( "G")
-            elif state == TrafficLight.YELLOW:
-                self.fff.write( "Y")
-            else:
-                self.fff.write( "_")
-            
         
-        if dbg_cnt < 3: 
+        if dbg_cnt < 5: 
             sys.stderr.write("image_cb called(state:" + str(state) + ")\n" )
         dbg_cnt += 1
 	
@@ -197,21 +147,9 @@ class TLDetector(object):
         #return light.state
 
         cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-        cv_image = cv2.resize(cv_image, (row,col))
+        #cv_image = cv2.resize(cv_image, (row,col))
 
-        result = tf.argmax(self.y,1)
-        out = self.sess.run(result, feed_dict={self.x: cv_image.reshape((-1,32*32*3)), self.keep_prob: 1.0})
-
-        print(out[0])
-        
-        if out[0] == 1:
-            return  TrafficLight.RED
-        else:
-            return TrafficLight.UNKNOWN
-
-
-        #Get classification
-        #return self.light_classifier.get_classification(cv_image)
+        return self.light_classifier.get_classification(cv_image)
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its

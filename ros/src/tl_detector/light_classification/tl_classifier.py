@@ -17,10 +17,15 @@ PATH_TO_GRAPH = r'./frozen_inference_graph.pb' ## load SSD trained on udacity's 
 PATH_TO_LABELS = r'./udacity_label_map.pbtxt'
 NUM_CLASSES = 13
 
+#if the score is under this value, unknown state is returned.
+MINIMUM_SCORE_THRESHOLD =0.2
+
+# red in .pb output
+RED_LIGHT=1
+
 
 # .pb file
 #subfolder = ['Green', 'Red', 'Yellow', 'Unknown']
-
 
 #styx_msgs/msg/TrafficLight.msg
 #uint8 UNKNOWN=4
@@ -30,14 +35,6 @@ NUM_CLASSES = 13
 
 # .pb -> msg
 #convertedColor=[2,0,1,4]
-
-
-
-
-IMAGE_SIZE = (12, 8)
-
-PATH_TO_IMGS = r'data/simulator_dataset_rgb'
-subfolder = ['Green', 'Red', 'Yellow', 'Unknown']
 
 class TLClassifier(object):
     def __init__(self):
@@ -69,6 +66,8 @@ class TLClassifier(object):
         """
         #TODO implement light color prediction
         #image_np = self.load_image_into_numpy_array(image)
+        global MINIMUM_SCORE_THRESHOLD
+        global RED_LIGHT
         image_np = image
         image_expanded = np.expand_dims(image_np, axis=0)
 
@@ -82,14 +81,13 @@ class TLClassifier(object):
        # print(classes[0])
 
 
-        sys.stderr.write("score:classes:  " + str(scores[0]) + "--------" + str(classes[0]) + "\n" )
+        #sys.stderr.write("score:classes:  " + str(scores[0]) + "--------" + str(classes[0]) + "\n" )
 
-	color = convertColor=[2,0,1,4]
-        if scores[0][0] > 0.2 and int(classes[0][0]) == 1 :  # 1 is RED in .pb 
+        if scores[0][0] > MINIMUM_SCORE_THRESHOLD and int(classes[0][0]) == RED_LIGHT :  # 1 is RED in .pb 
                 sys.stderr.write("[RED] detected..." + "\n")
                 return TrafficLight.RED
         else:
-                sys.stderr.write("[_] detected..." + "\n")
+                sys.stderr.write("[^RED] detected..." + "\n")
                 return TrafficLight.UNKNOWN
 
 

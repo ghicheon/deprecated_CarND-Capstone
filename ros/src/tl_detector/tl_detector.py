@@ -25,11 +25,6 @@ STATE_COUNT_THRESHOLD = 3
 
 dbg_cnt=0   #just for checking if image_cb works.
 
-#SAVE_IMAGE=False
-SAVE_IMAGE=True
-
-count=0
-
 class TLDetector(object):
     def __init__(self):
         rospy.init_node('tl_detector')
@@ -66,9 +61,6 @@ class TLDetector(object):
         self.waypoints_2d=[[99999999,9999999]] #XXX type error workaround...
         self.waypoint_tree = KDTree(self.waypoints_2d) #XXX type error workaround...
 
-        if SAVE_IMAGE == True:
-            self.fff = open('y.txt','w')
-
         self.bridge = CvBridge()
         self.light_classifier = TLClassifier()
         #self.listener = tf.TransformListener()
@@ -97,20 +89,15 @@ class TLDetector(object):
             msg (Image): image from car-mounted camera
 
         """
-
         global dbg_cnt
         self.has_image = True
         self.camera_image = msg
         light_wp, state = self.process_traffic_lights()
-
-
-
         
-        if dbg_cnt < 5: 
-            sys.stderr.write("image_cb called(state:" + str(state) +  " " + str(TrafficLight.UNKNOWN) + " " + str(TrafficLight.RED) + " " + str(TrafficLight.RED) + ")\n" )
+        if dbg_cnt < 1: 
+            sys.stderr.write("image_cb called.(just for checking if it works.)")
 
         dbg_cnt += 1
-	
 
         '''
         Publish upcoming red lights at camera frequency.
@@ -155,27 +142,7 @@ class TLDetector(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
 
         """
-        #for testing..............
-        #return light.state
-
         cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
-        #cv_image = cv2.resize(cv_image, (row,col))
-
-
-	global SAVE_IMAGE
-	global count
-        if SAVE_IMAGE == True:
-                newname = './' + str(count) + '.jpg'
-            	sys.stderr.write("file_name: " + newname + " \n" )
-                count += 1
-                cv2.imwrite( newname, cv_image)
-
-
-
-
-
-
-
         return self.light_classifier.get_classification(cv_image)
 
     def process_traffic_lights(self):
@@ -208,15 +175,6 @@ class TLDetector(object):
 
         if closest_light:
             state = self.get_light_state(closest_light)
-            if SAVE_IMAGE == True:
-               if state == TrafficLight.RED:
-                   self.fff.write( "R")
-               elif state == TrafficLight.GREEN:
-                   self.fff.write( "G")
-               elif state == TrafficLight.YELLOW:
-                   self.fff.write( "Y")
-               else:
-                   self.fff.write( "_")
             return line_idx , state
 
         self.fff.write( "_")
@@ -227,11 +185,5 @@ if __name__ == '__main__':
         TLDetector()
     except rospy.ROSInterruptException:
         rospy.logerr('Could not start traffic node.')
-
-
-
-
-
-
 
 

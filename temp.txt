@@ -1,5 +1,19 @@
+
 #this procedure must be done in ubuntu 16.04 bash windows shell.
 #just use this file as a reference.
+
+
+
+sudo add-apt-repository ppa:jonathonf/python-3.6
+sudo apt-get update
+
+sudo apt-get install pip3-python
+
+sudo apt-get install python3.6
+sudo apt-get install python3.6-dev
+
+alias python='python3.6'
+echo alias python=\'python3.6\'  >> ~/.bashrc
 
 
 #git clone https://github.com/ghicheon/CarND-Capstone
@@ -14,11 +28,16 @@ rosdep update
 
 cd
 echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+
+#you may have to run it on command line!
 .  ~/.bashrc
+
 sudo apt-get install python-rosinstall python-rosinstall-generator python-wstool build-essential
 cd CarND-Capstone/
 cd ros
 catkin_make
+
+#you may have to run it on command line!
 bash <(wget -q -O - https://bitbucket.org/DataspeedInc/dbw_mkz_ros/raw/default/dbw_mkz/scripts/sdk_install.bash)
 
 source devel/setup.bash
@@ -27,13 +46,13 @@ source devel/setup.bash
 #sudo apt-get install ros-kinetic-geographic-msgs
 
 #connect to simulator!
-pip install python-socketio --upgrade --user
+#pip install python-socketio --upgrade --user
 
 #MUST BE DONE before roslaunch
-sudo pip install -r requirements.txt
+sudo pip3 install -r requirements.txt
 
 #IndexError: tuple index out of range
-pip install pillow --upgrade
+#pip3 install pillow --upgrade
 
 
 roslaunch  launch/styx.launch 

@@ -18,6 +18,21 @@ PATH_TO_LABELS = r'./udacity_label_map.pbtxt'
 NUM_CLASSES = 13
 
 
+# .pb file
+#subfolder = ['Green', 'Red', 'Yellow', 'Unknown']
+
+
+#styx_msgs/msg/TrafficLight.msg
+#uint8 UNKNOWN=4
+#uint8 GREEN=2
+#uint8 YELLOW=1
+#uint8 RED=0
+
+# .pb -> msg
+#convertedColor=[2,0,1,4]
+
+
+
 
 IMAGE_SIZE = (12, 8)
 
@@ -67,9 +82,10 @@ class TLClassifier(object):
        # print(classes[0])
 
 
-        sys.stderr.write("score:classes:  " + str(scores[0][0]) + "--------" + str(classes[0][0]) + "\n" )
+        sys.stderr.write("score:classes:  " + str(scores[0]) + "--------" + str(classes[0]) + "\n" )
 
-        if scores[0][0] > 0.6 and int(classes[0][0]) == 2 :
+	color = convertColor=[2,0,1,4]
+        if scores[0][0] > 0.2 and int(classes[0][0]) == 1 :  # 1 is RED in .pb 
                 sys.stderr.write("[RED] detected..." + "\n")
                 return TrafficLight.RED
         else:

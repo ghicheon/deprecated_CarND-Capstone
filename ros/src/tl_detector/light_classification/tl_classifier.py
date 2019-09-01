@@ -13,8 +13,10 @@ from utils import visualization_utils as vis_util
 import random
 from styx_msgs.msg import TrafficLightArray, TrafficLight
 
-PATH_TO_GRAPH = r'./frozen_inference_graph.pb' ## load SSD trained on udacity's simulator images
-PATH_TO_LABELS = r'./udacity_label_map.pbtxt'
+## load SSD trained on udacity's simulator images
+PATH_TO_GRAPH = r'./light_classification/model/sim/8_batch/frozen_inference_graph.pb' 
+
+PATH_TO_LABELS = r'./light_classification/model/udacity_label_map.pbtxt'
 NUM_CLASSES = 13
 
 #if the score is under this value, unknown state is returned.

@@ -3,21 +3,6 @@
 #just use this file as a reference.
 
 
-
-sudo add-apt-repository ppa:jonathonf/python-3.6
-sudo apt-get update
-
-sudo apt-get install pip3-python
-
-sudo apt-get install python3.6
-sudo apt-get install python3.6-dev
-
-alias python='python3.6'
-echo alias python=\'python3.6\'  >> ~/.bashrc
-
-
-#git clone https://github.com/ghicheon/CarND-Capstone
-
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
 sudo apt-get update
@@ -49,10 +34,10 @@ source devel/setup.bash
 #pip install python-socketio --upgrade --user
 
 #MUST BE DONE before roslaunch
-sudo pip3 install -r requirements.txt
+sudo pip install -r requirements.txt
 
 #IndexError: tuple index out of range
-#pip3 install pillow --upgrade
+#pip install pillow --upgrade
 
 
 roslaunch  launch/styx.launch 

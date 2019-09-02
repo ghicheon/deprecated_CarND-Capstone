@@ -177,7 +177,6 @@ class TLDetector(object):
             state = self.get_light_state(closest_light)
             return line_idx , state
 
-        self.fff.write( "_")
         return -1, TrafficLight.UNKNOWN
 
 if __name__ == '__main__':
